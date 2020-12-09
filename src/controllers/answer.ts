@@ -5,11 +5,11 @@ import User from "../models/User";
 import Answer from "../models/Answer";
 
 // submits the answers to user's questions
-exports.submitAnswers = async (
+export const submitAnswers = async (
   req: Request,
   res: Response,
   next: NextFunction,
-) => {
+): Promise<Response | undefined> => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

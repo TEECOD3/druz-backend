@@ -8,7 +8,7 @@ import {
 import chalk from "chalk";
 const redUnderline = chalk.red.underline;
 
-const handleNotFound = (router: Router) => {
+const handleNotFound = (router: Router): void => {
   router.use((req: Request, res: Response, next: NextFunction) => {
     res.status(404).json({
       errors: [
@@ -22,7 +22,7 @@ const handleNotFound = (router: Router) => {
   });
 };
 
-const handlerServerError = (router: Router) => {
+const handlerServerError = (router: Router): void => {
   router.use(
     (
       err: ErrorRequestHandler,

@@ -3,11 +3,11 @@ import mongoose from "mongoose";
 import User from "../models/User";
 
 // Get a user profile id or name
-exports.getUserProfile = async (
+export const getUserProfile = async (
   req: Request,
   res: Response,
   next: NextFunction,
-) => {
+): Promise<Response | undefined> => {
   try {
     const { id, name } = req.query;
     if (id) {

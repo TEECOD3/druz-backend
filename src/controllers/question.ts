@@ -1,13 +1,14 @@
-import { Request, Response, NextFunction } from "express";
+import { Response, NextFunction } from "express";
+import RequestWithUser from "../definitions/RequestWithUser";
 import { validationResult } from "express-validator";
 import User from "../models/User";
 
 // adds a question a user's profile
-exports.addQuestion = async (
-  req: Request,
+export const addQuestion = async (
+  req: RequestWithUser,
   res: Response,
   next: NextFunction,
-) => {
+): Promise<Response | undefined> => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -16,7 +17,7 @@ exports.addQuestion = async (
       });
     }
 
-    const user = await User.findById(req.user.id);
+    const user = await User.findById(req.user!.id);
     if (user) {
       if (user.questions.length >= 12) {
         return res.status(400).json({
@@ -46,14 +47,14 @@ exports.addQuestion = async (
 };
 
 // removes a question
-exports.removeQuestion = async (
-  req: Request,
+export const removeQuestion = async (
+  req: RequestWithUser,
   res: Response,
   next: NextFunction,
-) => {
+): Promise<Response | undefined> => {
   try {
     const { questionId } = req.params;
-    const user = await User.findById(req.user.id);
+    const user = await User.findById(req.user!.id);
 
     if (user) {
       if (user.questions.length <= 2) {
@@ -97,11 +98,11 @@ exports.removeQuestion = async (
 };
 
 // edits a question
-exports.editQuestion = async (
-  req: Request,
+export const editQuestion = async (
+  req: RequestWithUser,
   res: Response,
   next: NextFunction,
-) => {
+): Promise<Response | undefined> => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -112,7 +113,7 @@ exports.editQuestion = async (
 
     const { questionId } = req.params;
     const { question } = req.body;
-    const user = await User.findById(req.user.id);
+    const user = await User.findById(req.user!.id);
 
     if (user) {
       const index = user.questions.findIndex(

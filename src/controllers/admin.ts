@@ -3,15 +3,16 @@ import mongoose from "mongoose";
 import { validationResult } from "express-validator";
 import User from "../models/User";
 import Answer from "../models/Answer";
+import RequestWithUser from "../definitions/RequestWithUser";
 const adminPassword = process.env.ADMIN_PASSWORD;
 const adminName = process.env.ADMIN_NAME;
 
 // get all users' info
-exports.getAllUsers = async (
+export const getAllUsers = async (
   req: Request,
   res: Response,
   next: NextFunction,
-) => {
+): Promise<Response | undefined> => {
   try {
     // const users = await User.find({}).select(["-password"]).sort({ date: -1 });
     return res.json({
@@ -25,11 +26,11 @@ exports.getAllUsers = async (
 };
 
 // remove a user
-exports.removeUser = async (
-  req: Request,
+export const removeUser = async (
+  req: RequestWithUser,
   res: Response,
   next: NextFunction,
-) => {
+): Promise<Response | undefined> => {
   try {
     const { userId } = req.params;
     if (!mongoose.Types.ObjectId.isValid(userId)) {
@@ -55,7 +56,7 @@ exports.removeUser = async (
       });
     } else {
       await user.remove();
-      await Answer.deleteMany({ user: req.user.id });
+      await Answer.deleteMany({ user: req.user!.id });
       return res.json({
         data: {
           msg: "User successfully removed",
@@ -68,11 +69,11 @@ exports.removeUser = async (
 };
 
 // dashboard pass
-exports.dashboardPass = async (
+export const dashboardPass = async (
   req: Request,
   res: Response,
   next: NextFunction,
-) => {
+): Promise<Response | undefined> => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty) {
@@ -103,11 +104,11 @@ exports.dashboardPass = async (
 };
 
 // get basic data
-exports.getBasicData = async (
+export const getBasicData = async (
   req: Request,
   res: Response,
   next: NextFunction,
-) => {
+): Promise<Response | undefined> => {
   try {
     const allUsers = await User.find().count();
     const allAnswers = await Answer.find().count();
@@ -123,11 +124,11 @@ exports.getBasicData = async (
 };
 
 // search and get single user
-exports.searchUser = async (
+export const searchUser = async (
   req: Request,
   res: Response,
   next: NextFunction,
-) => {
+): Promise<Response | undefined> => {
   try {
     const { name } = req.params;
     // console.log(req.body);
@@ -163,11 +164,11 @@ exports.searchUser = async (
   }
 };
 
-exports.clearOldAnswers = async (
+export const clearOldAnswers = async (
   req: Request,
   res: Response,
   next: NextFunction,
-) => {
+): Promise<Response | undefined> => {
   try {
     await Answer.deleteMany({
       date: { $lt: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000) },
@@ -183,11 +184,11 @@ exports.clearOldAnswers = async (
 };
 
 // remove inactive users
-exports.removeInactiveUsers = async (
+export const removeInactiveUsers = async (
   req: Request,
   res: Response,
   next: NextFunction,
-) => {
+): Promise<Response | undefined> => {
   try {
     await User.deleteMany({
       lastOnline: { $lt: new Date(Date.now() - 3 * 30 * 24 * 60 * 60 * 1000) },

@@ -1,4 +1,5 @@
-import { Request, Response, NextFunction } from "express";
+import { Response, NextFunction } from "express";
+import RequestWithUser from "../definitions/RequestWithUser";
 import bcrypt from "bcryptjs";
 import { validationResult } from "express-validator";
 import User from "../models/User";
@@ -6,14 +7,14 @@ import Answer from "../models/Answer";
 import isNameValid from "../utils/isNameValid";
 
 // Edits profile of a user
-exports.editProfile = async (
-  req: Request,
+export const editProfile = async (
+  req: RequestWithUser,
   res: Response,
   next: NextFunction,
-) => {
+): Promise<Response | undefined> => {
   try {
     const { name, email } = req.body;
-    const user = await User.findById(req.user.id);
+    const user = await User.findById(req.user!.id);
     if (user) {
       if (name != undefined) {
         if (!isNameValid(name)) {
@@ -112,11 +113,11 @@ exports.editProfile = async (
 };
 
 // change password
-exports.changePassword = async (
-  req: Request,
+export const changePassword = async (
+  req: RequestWithUser,
   res: Response,
   next: NextFunction,
-) => {
+): Promise<Response | undefined> => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -124,7 +125,7 @@ exports.changePassword = async (
         errors: errors.array(),
       });
     }
-    const user = await User.findById(req.user.id);
+    const user = await User.findById(req.user!.id);
     const { password } = req.body;
 
     if (user) {
@@ -180,17 +181,17 @@ exports.changePassword = async (
 };
 
 // delete account
-exports.deleteAccount = async (
-  req: Request,
+export const deleteAccount = async (
+  req: RequestWithUser,
   res: Response,
   next: NextFunction,
-) => {
+): Promise<Response | undefined> => {
   try {
-    const user = await User.findById(req.user.id);
+    const user = await User.findById(req!.user!.id);
 
     if (user) {
       await user.remove();
-      await Answer.deleteMany({ user: req.user.id });
+      await Answer.deleteMany({ user: req.user!.id });
       return res.json({
         data: {
           msg: "Account successfully deleted.",

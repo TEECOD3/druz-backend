@@ -1,12 +1,13 @@
-import { Request, Response, NextFunction } from "express";
+import { Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import chalk from "chalk";
 import User from "../models/User";
+import RequestWithUser from "../definitions/RequestWithUser";
 const redUnderline = chalk.red.underline;
 const secret = process.env.JWT_SECRET || "secret";
 
 const authenticate = async (
-  req: Request,
+  req: RequestWithUser,
   res: Response,
   next: NextFunction,
 ): Promise<Response | undefined> => {
@@ -50,7 +51,7 @@ const authenticate = async (
         });
       }
     }
-    req.user = decoded.user;
+    req.user = findUser;
     next();
   } catch (err) {
     console.error(redUnderline(`${err}`));

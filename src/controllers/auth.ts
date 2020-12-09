@@ -1,4 +1,5 @@
-import { Request, Response, NextFunction } from "express";
+import { Response, NextFunction } from "express";
+import RequestWithUser from "../definitions/RequestWithUser";
 import { validationResult } from "express-validator";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
@@ -11,7 +12,11 @@ import defaultQuestions from "../utils/defaultQuestions";
 const secret = process.env.JWT_SECRET || "secret";
 
 // register a user
-exports.register = async (req: Request, res: Response, next: NextFunction) => {
+export const register = async (
+  req: RequestWithUser,
+  res: Response,
+  next: NextFunction,
+): Promise<Response | undefined> => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -112,7 +117,11 @@ exports.register = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 // logs in a user
-exports.login = async (req: Request, res: Response, next: NextFunction) => {
+export const login = async (
+  req: RequestWithUser,
+  res: Response,
+  next: NextFunction,
+): Promise<Response | undefined> => {
   try {
     const { name, password } = req.body;
     const user = await User.findOne({ name });
@@ -167,9 +176,13 @@ exports.login = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 // logs out a user
-exports.logout = async (req: Request, res: Response, next: NextFunction) => {
+export const logout = async (
+  req: RequestWithUser,
+  res: Response,
+  next: NextFunction,
+): Promise<Response | undefined> => {
   try {
-    const user = await User.findById(req.user.id);
+    const user = await User.findById(req.user!.id);
     if (user) {
       user.lastLogout = new Date();
       await user.save();
@@ -194,9 +207,13 @@ exports.logout = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 // gets a logged in user
-exports.getUser = async (req: Request, res: Response, next: NextFunction) => {
+export const getUser = async (
+  req: RequestWithUser,
+  res: Response,
+  next: NextFunction,
+): Promise<Response | undefined> => {
   try {
-    const user = await User.findById(req.user.id);
+    const user = await User.findById(req.user!.id);
     // keep track of their last online session
     if (user) {
       user.lastOnline = new Date();
@@ -241,11 +258,11 @@ exports.getUser = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 // forgot password
-exports.forgotPassword = async (
-  req: Request,
+export const forgotPassword = async (
+  req: RequestWithUser,
   res: Response,
   next: NextFunction,
-) => {
+): Promise<Response | undefined> => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -287,11 +304,11 @@ exports.forgotPassword = async (
 };
 
 // reset password
-exports.resetPassword = async (
-  req: Request,
+export const resetPassword = async (
+  req: RequestWithUser,
   res: Response,
   next: NextFunction,
-) => {
+): Promise<Response | undefined> => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
