@@ -3,7 +3,7 @@ import supertest from "supertest";
 const request = supertest(app);
 import mongoose from "mongoose";
 const databaseName = "druz-question-test";
-import User from "../models/User";
+import User, { IUser } from "../models/User";
 import {
   createConnection,
   dropAllCollections,
@@ -53,8 +53,8 @@ describe("Question: Add a question, remove a question", () => {
 
       expect(response.status).toBe(200);
       expect(response.body.data.msg).toBe("Question added successfully");
-      expect(user.questions.length).toBe(10);
-      expect(user.questions[9].content).toBe("Will you marry me?");
+      expect(user!.questions.length).toBe(10);
+      expect(user!.questions[9].content).toBe("Will you marry me?");
     });
 
     it("Should return 422 when question is not passed", async () => {
@@ -97,7 +97,7 @@ describe("Question: Add a question, remove a question", () => {
 
       expect(response.status).toBe(200);
       expect(response.body.data.msg).toBe("Question removed successfully");
-      expect(user.questions.length).toBe(8);
+      expect(user!.questions.length).toBe(8);
     });
 
     it("Should return 404 if question is not found", async () => {
@@ -112,7 +112,7 @@ describe("Question: Add a question, remove a question", () => {
 
       expect(response.status).toBe(404);
       expect(response.body.errors[0].msg).toBe("Question not found");
-      expect(user.questions.length).toBe(9);
+      expect(user!.questions.length).toBe(9);
     });
 
     it("Should return 401 if user isn't logged in or authenticated", async () => {
@@ -126,7 +126,7 @@ describe("Question: Add a question, remove a question", () => {
 
       expect(response.status).toBe(401);
       expect(response.body.errors[0].msg).toBe("Not authorized");
-      expect(user.questions.length).toBe(9);
+      expect(user!.questions.length).toBe(9);
     });
   });
 });

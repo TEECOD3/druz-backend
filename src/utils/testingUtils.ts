@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 // beforeAll
 export const createConnection = async (dbName: string): Promise<void> => {
   const url = `mongodb://127.0.0.1:27017/${dbName}`;
-  await mongoose.connect(url, {
+  await mongoose.createConnection(url, {
     useCreateIndex: true,
     useFindAndModify: false,
     useNewUrlParser: true,

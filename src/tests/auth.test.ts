@@ -163,7 +163,7 @@ describe("Auth test: Signup, login, forgot password and password reset", () => {
       });
 
       const user = await User.findOne({ name: "erons" });
-      const isMatch = await bcrypt.compare("password", user.password);
+      const isMatch = await bcrypt.compare("password", user!.password);
 
       expect(isMatch).toBeFalsy();
     });
@@ -178,7 +178,7 @@ describe("Auth test: Signup, login, forgot password and password reset", () => {
       });
 
       const user = await User.findOne({ email: "eronmmer@gmail.com" });
-      const isMatch = await bcrypt.compare("password", user.password);
+      const isMatch = await bcrypt.compare("password", user!.password);
 
       expect(isMatch).toBeFalsy();
     });
@@ -345,8 +345,8 @@ describe("Auth test: Signup, login, forgot password and password reset", () => {
       expect(response.body.data.msg).toBe(
         "Reset link sent successfully to your email.",
       );
-      expect(user.resetToken).toBeTruthy();
-      expect(user.resetTokenExpirationDate).toBeTruthy();
+      expect(user!.resetToken).toBeTruthy();
+      expect(user!.resetTokenExpirationDate).toBeTruthy();
     });
 
     it("Should save token to DB after password reset request", async () => {
@@ -357,7 +357,7 @@ describe("Auth test: Signup, login, forgot password and password reset", () => {
 
       const user = await User.findOne({ name: "erons" });
 
-      expect(user.resetToken).toBeTruthy();
+      expect(user!.resetToken).toBeTruthy();
     });
 
     it("Should save token expiration to DB after password reset request", async () => {
@@ -368,7 +368,7 @@ describe("Auth test: Signup, login, forgot password and password reset", () => {
 
       const user = await User.findOne({ name: "erons" });
 
-      expect(user.resetTokenExpirationDate).toBeTruthy();
+      expect(user!.resetTokenExpirationDate).toBeTruthy();
     });
 
     // it("Should prevent email action if user is not found", async () => {
