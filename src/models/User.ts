@@ -1,4 +1,4 @@
-import { Date, Schema, model, Document } from "mongoose";
+import { Schema, model, Document, Types } from "mongoose";
 
 export interface IUser extends Document {
   name: string;
@@ -11,7 +11,8 @@ export interface IUser extends Document {
   lastOnline?: Date;
   questions: {
     content: string;
-    date: Date;
+    date?: Date;
+    _id?: Types.ObjectId;
   }[];
   date: Date;
   createdAt?: Date;

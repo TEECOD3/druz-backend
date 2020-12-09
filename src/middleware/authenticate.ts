@@ -3,13 +3,13 @@ import jwt from "jsonwebtoken";
 import chalk from "chalk";
 import User from "../models/User";
 const redUnderline = chalk.red.underline;
-const secret = process.env.JWT_SECRET || "sldsdffafdf";
+const secret = process.env.JWT_SECRET || "secret";
 
 const authenticate = async (
   req: Request,
   res: Response,
   next: NextFunction,
-) => {
+): Promise<Response | undefined> => {
   try {
     const token = req.headers.authorization;
     const tokenString = token ? token.split(" ")[1] : undefined;
@@ -65,4 +65,4 @@ const authenticate = async (
   }
 };
 
-module.exports = authenticate;
+export default authenticate;

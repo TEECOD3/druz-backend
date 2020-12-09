@@ -1,11 +1,12 @@
 import dotenv from "dotenv";
 dotenv.config();
-import path from "path";
-import express, { Router, Request, Response, NextFunction } from "express";
+import express from "express";
 import routes from "./routes";
 import middleware from "./middleware";
 import errorHandlers from "./middleware/errorHandlers";
-import { applyRoutes, applyMiddleware, connectDB } from "./utils";
+import applyRoutes from "./utils/applyRoutes";
+import applyMiddleware from "./utils/applyMiddleware";
+import connectDB from "./utils/connectDB";
 const app = express();
 
 connectDB();
