@@ -29,6 +29,13 @@ jobs:
         yarn test
       env:
         CI: true
+        MONGO_URI: ${{ secrets.MONGO_URI }}
+        ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
+        ADMIN_NAME: ${{ secrets.ADMIN_NAME }}
+        ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+        GMAIL: ${{ secrets.GMAIL }}
+        GMAIL_PASSWORD: ${{ secrets.GMAIL_PASSWORD }}
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}
 
   deploy:
     needs: [test]
