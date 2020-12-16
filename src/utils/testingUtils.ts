@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
+const MONGO_BASE_URI = process.env.MONGO_BASE_URI;
 
 // beforeAll
 export const createConnection = async (dbName: string): Promise<void> => {
-  const url = `mongodb://127.0.0.1:27017/${dbName}`;
+  const url = `${MONGO_BASE_URI}${dbName}`;
   await mongoose.createConnection(url, {
     useCreateIndex: true,
     useFindAndModify: false,
