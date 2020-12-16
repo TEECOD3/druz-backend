@@ -4,6 +4,7 @@ const MONGO_BASE_URI = process.env.MONGO_BASE_URI;
 // beforeAll
 export const createConnection = async (dbName: string): Promise<void> => {
   const url = `${MONGO_BASE_URI}${dbName}`;
+  console.log(MONGO_BASE_URI);
   await mongoose.createConnection(url, {
     useCreateIndex: true,
     useFindAndModify: false,
