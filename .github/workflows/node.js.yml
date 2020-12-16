@@ -10,47 +10,51 @@ on:
 
 jobs:
   test:
-
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
         node-version: [10.x, 12.x]
+        mongodb-version: [4.0, 4.2]
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: install dependencies and test
-      run: |
-        yarn
-        yarn test
-      env:
-        CI: true
-        MONGO_URI: ${{ secrets.MONGO_URI }}
-        ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
-        ADMIN_NAME: ${{ secrets.ADMIN_NAME }}
-        ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
-        GMAIL: ${{ secrets.GMAIL }}
-        GMAIL_PASSWORD: ${{ secrets.GMAIL_PASSWORD }}
-        JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Start MongoDB v${{ matrix.mongodb-version }}
+        uses: supercharge/mongodb-github-action@1.2.0
+        with:
+          mongodb-version: ${{ matrix.mongodb-version }}
+      - name: install dependencies and test
+        run: |
+          yarn
+          yarn test
+        env:
+          CI: true
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+          ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
+          ADMIN_NAME: ${{ secrets.ADMIN_NAME }}
+          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+          GMAIL: ${{ secrets.GMAIL }}
+          GMAIL_PASSWORD: ${{ secrets.GMAIL_PASSWORD }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
 
   deploy:
     needs: [test]
     runs-on: ubuntu-latest
 
     steps:
-    - name: SSH and deploy node app
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.SSH_HOST }}
-        username: ${{ secrets.SSH_USERNAME }}
-        key: ${{ secrets.SSH_KEY }}
-        port: ${{ secrets.SSH_PORT }}
-        script: |
-          cd ~/node-github-demo
-          git pull origin master
-          yarn
-          pm2 restart druz-backend
+      - name: SSH and deploy node app
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            cd ~/node-github-demo
+            git pull origin master
+            yarn
+            pm2 restart druz-backend
