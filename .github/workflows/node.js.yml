@@ -34,6 +34,7 @@ jobs:
         env:
           CI: true
           MONGO_URI: ${{ secrets.MONGO_URI }}
+          MONGO_BASE_URI: ${{ secrets.MONGO_BASE_URI }}
           ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
           ADMIN_NAME: ${{ secrets.ADMIN_NAME }}
           ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
