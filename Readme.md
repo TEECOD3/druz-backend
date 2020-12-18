@@ -1,3 +1,3 @@
 # Druz Backend
 
-Backend API for Druz
+Druz API
