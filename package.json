@@ -12,7 +12,7 @@
   "start": "yarn build && yarn serve",
   "serve": "node build/index.js",
 	"build": "tsc --project ./",
-	"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn --cwd build && yarn --cwd serve",
+	"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn",
   "destroy-seeds": "ts-node ./src/utils/destroySeeds.ts",
   "import-seeds": "ts-node ./src/utils/importSeeds.ts",
   "lint": "eslint . --ext .ts",
