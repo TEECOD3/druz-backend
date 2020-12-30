@@ -9,14 +9,13 @@
  "scripts": {
   "test": "jest --forceExit --detectOpenHandles --maxWorkers=4",
   "dev": "nodemon",
-  "start": "yarn build && yarn serve",
-  "serve": "node build/index.js",
-  "build": "tsc --project ./",
-  "heroku-prebuild": "YARN_PRODUCTION=false yarn",
   "destroy-seeds": "ts-node ./src/utils/destroySeeds.ts",
   "import-seeds": "ts-node ./src/utils/importSeeds.ts",
   "lint": "eslint . --ext .ts",
-  "lint:fix": "eslint . --ext .ts --fix"
+	"lint:fix": "eslint . --ext .ts --fix",
+	"start": "node build/index.js",
+  "postinstall": "tsc --project ./",
+  "deploy": "git add . && git commit -m shit && git push origin master && git push heroku master"
  },
  "jest": {
   "testEnvironment": "node",
