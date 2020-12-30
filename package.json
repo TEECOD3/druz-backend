@@ -14,8 +14,7 @@
   "lint": "eslint . --ext .ts",
 	"lint:fix": "eslint . --ext .ts --fix",
 	"start": "node build/index.js",
-  "postinstall": "tsc --project ./",
-  "deploy": "git add . && git commit -m shit && git push origin master && git push heroku master"
+  "postinstall": "tsc --project ./"
  },
  "jest": {
   "testEnvironment": "node",
