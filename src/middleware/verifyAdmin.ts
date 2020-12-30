@@ -12,7 +12,7 @@ const verifyAdmin = async (
   next: NextFunction,
 ): Promise<Response | undefined> => {
   try {
-    const user = await User.findById(req.user!.id);
+    const user = await User.findById(req?.user?.id);
 
     if (user) {
       const isCorrectPassword = await bcrypt.compare(

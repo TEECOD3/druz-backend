@@ -14,7 +14,7 @@ export const editProfile = async (
 ): Promise<Response | undefined> => {
   try {
     const { name, email } = req.body;
-    const user = await User.findById(req.user!.id);
+    const user = await User.findById(req?.user?.id);
     if (user) {
       if (name != undefined) {
         if (!isNameValid(name)) {
@@ -125,7 +125,7 @@ export const changePassword = async (
         errors: errors.array(),
       });
     }
-    const user = await User.findById(req.user!.id);
+    const user = await User.findById(req?.user?.id);
     const { password } = req.body;
 
     if (user) {
@@ -180,6 +180,37 @@ export const changePassword = async (
   }
 };
 
+// get dashboard information for a user
+export const getDashboard = async (
+  req: RequestWithUser,
+  res: Response,
+  next: NextFunction,
+): Promise<Response | undefined> => {
+  try {
+    const user = await User.findById(req?.user?.id);
+    const answers = await Answer.find({ user: req?.user?.id }).count();
+
+    if (user) {
+      user.lastOnline = new Date();
+      await user.save();
+
+      return res.json({
+        data: {
+          user: {
+            _id: user.id,
+            name: user.name,
+            email: user.email,
+            questions: user.questions.length,
+            answers,
+          },
+        },
+      });
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
 // delete account
 export const deleteAccount = async (
   req: RequestWithUser,
@@ -187,11 +218,11 @@ export const deleteAccount = async (
   next: NextFunction,
 ): Promise<Response | undefined> => {
   try {
-    const user = await User.findById(req!.user!.id);
+    const user = await User.findById(req?.user?.id);
 
     if (user) {
       await user.remove();
-      await Answer.deleteMany({ user: req.user!.id });
+      await Answer.deleteMany({ user: req?.user?.id });
       return res.json({
         data: {
           msg: "Account successfully deleted.",

@@ -56,7 +56,7 @@ export const removeUser = async (
       });
     } else {
       await user.remove();
-      await Answer.deleteMany({ user: req.user!.id });
+      await Answer.deleteMany({ user: req?.user?.id });
       return res.json({
         data: {
           msg: "User successfully removed",

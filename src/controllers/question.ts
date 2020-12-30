@@ -17,7 +17,7 @@ export const addQuestion = async (
       });
     }
 
-    const user = await User.findById(req.user!.id);
+    const user = await User.findById(req?.user?.id);
     if (user) {
       if (user.questions.length >= 12) {
         return res.status(400).json({
@@ -54,7 +54,7 @@ export const removeQuestion = async (
 ): Promise<Response | undefined> => {
   try {
     const { questionId } = req.params;
-    const user = await User.findById(req.user!.id);
+    const user = await User.findById(req?.user?.id);
 
     if (user) {
       if (user.questions.length <= 2) {
@@ -69,7 +69,7 @@ export const removeQuestion = async (
       }
 
       const index = user.questions.findIndex(
-        (question) => question!._id!.toString() === questionId,
+        (question) => question?._id?.toString() === questionId,
       );
 
       if (index === -1) {
@@ -113,11 +113,11 @@ export const editQuestion = async (
 
     const { questionId } = req.params;
     const { question } = req.body;
-    const user = await User.findById(req.user!.id);
+    const user = await User.findById(req?.user?.id);
 
     if (user) {
       const index = user.questions.findIndex(
-        (question) => question!._id!.toString() === questionId,
+        (question) => question?._id?.toString() === questionId,
       );
 
       if (index === -1) {

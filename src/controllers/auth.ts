@@ -182,7 +182,7 @@ export const logout = async (
   next: NextFunction,
 ): Promise<Response | undefined> => {
   try {
-    const user = await User.findById(req.user!.id);
+    const user = await User.findById(req?.user?.id);
     if (user) {
       user.lastLogout = new Date();
       await user.save();
@@ -213,12 +213,9 @@ export const getUser = async (
   next: NextFunction,
 ): Promise<Response | undefined> => {
   try {
-    const user = await User.findById(req.user!.id);
+    const user = await User.findById(req?.user?.id);
     // keep track of their last online session
     if (user) {
-      user.lastOnline = new Date();
-      await user.save();
-
       const { alongwith, limit = 10, page = 1 } = req.query;
       if (alongwith === "answers") {
         // eslint-disable-next-line

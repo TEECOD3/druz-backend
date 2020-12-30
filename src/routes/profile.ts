@@ -6,7 +6,15 @@ import {
   editProfile,
   changePassword,
   deleteAccount,
+  getDashboard,
 } from "../controllers/profile";
+
+/*
+ * @desc Gets users dashboard
+ * @method GET
+ * @api Private
+ */
+router.get("/dashboard", authenticate, getDashboard);
 
 /*
  * @desc Edits a user info(name and email)
