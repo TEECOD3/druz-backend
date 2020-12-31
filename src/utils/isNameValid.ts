@@ -1,7 +1,9 @@
 const blackedOutNames = [
   "anonymous",
-  "home",
   "settings",
+  "setting",
+  "response",
+  "responses",
   "about",
   "privacy",
   "disclaimer",
@@ -15,6 +17,10 @@ const blackedOutNames = [
   "login",
   "register",
   "admin",
+  "username",
+  "home",
+  "index",
+  "blog",
   // "aigbiluese_eronmonsele"
 ];
 
