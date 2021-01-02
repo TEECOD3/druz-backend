@@ -21,6 +21,10 @@ const blackedOutNames = [
   "home",
   "index",
   "blog",
+  "blogs",
+  "contact",
+  "contacts",
+  "faqs",
   // "aigbiluese_eronmonsele"
 ];
 
