@@ -5,6 +5,7 @@ export interface IAnswer extends Document {
   user: Types.ObjectId;
   name: string;
   answers: { question: string; answer: string }[];
+  read: boolean;
   date: Date;
 }
 
@@ -23,6 +24,10 @@ const AnswerSchema = new Schema({
       answer: String,
     },
   ],
+  read: {
+    type: Boolean,
+    default: false,
+  },
   date: {
     type: Date,
     default: Date.now,

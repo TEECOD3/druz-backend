@@ -222,7 +222,7 @@ export const getUser = async (
         // @ts-ignore
         const answers = await Answer.paginate(
           { user: user.id },
-          { limit, page, sort: { date: -1 } },
+          { limit, page, sort: { date: -1 }, lean: true },
         );
         // .sort({ date: -1 });
         return res.json({

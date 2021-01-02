@@ -189,6 +189,10 @@ export const getDashboard = async (
   try {
     const user = await User.findById(req?.user?.id);
     const answers = await Answer.find({ user: req?.user?.id }).count();
+    const unread = await Answer.find({
+      user: req?.user?.id,
+      read: false,
+    }).count();
 
     if (user) {
       user.lastOnline = new Date();
@@ -201,6 +205,7 @@ export const getDashboard = async (
             name: user.name,
             email: user.email,
             questions: user.questions.length,
+            unread,
             answers,
           },
         },
