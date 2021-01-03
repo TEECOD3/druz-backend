@@ -25,6 +25,8 @@ const blackedOutNames = [
   "contact",
   "contacts",
   "faqs",
+  "privacy-policy",
+  "terms-of-use",
   // "aigbiluese_eronmonsele"
 ];
 
