@@ -1,3 +1,4 @@
+import { MongoError } from "mongodb";
 import mongoose from "mongoose";
 const MONGO_BASE_URI = process.env.MONGO_BASE_URI;
 
@@ -32,14 +33,18 @@ export const dropAllCollections = async (): Promise<void> => {
     } catch (error) {
       // This error happens when you try to drop a collection that's already dropped. Happens infrequently.
       // Safe to ignore.
-      if (error.message === "ns not found") return;
+      if ((error as MongoError).message === "ns not found") return;
 
       // This error happens when you use it.todo.
       // Safe to ignore.
-      if (error.message.includes("a background operation is currently running"))
+      if (
+        (error as MongoError).message.includes(
+          "a background operation is currently running",
+        )
+      )
         return;
 
-      console.log(error.message);
+      console.log((error as MongoError).message);
     }
   }
 };

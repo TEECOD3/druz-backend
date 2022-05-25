@@ -60,8 +60,8 @@ describe("Profile: Edit profile, change password, delete account", () => {
       expect(response.body.data.msg).toBe("Profile updated successfully");
       expect(response.body.data.name).toBe("ehis");
       expect(response.body.data.email).toBe("eronmmer@gmail.com");
-      expect(user!.name).toBe("ehis");
-      expect(user!.email).toBe("eronmmer@gmail.com");
+      expect(user.name).toBe("ehis");
+      expect(user.email).toBe("eronmmer@gmail.com");
     });
 
     it("Should update and return profile successfully if only email is passed", async () => {
@@ -81,8 +81,8 @@ describe("Profile: Edit profile, change password, delete account", () => {
       expect(response.body.data.msg).toBe("Profile updated successfully");
       expect(response.body.data.name).toBe("erons");
       expect(response.body.data.email).toBe("ehis@gmail.com");
-      expect(user!.name).toBe("erons");
-      expect(user!.email).toBe("ehis@gmail.com");
+      expect(user.name).toBe("erons");
+      expect(user.email).toBe("ehis@gmail.com");
     });
 
     it("Should update and return profile if both email and password are passed", async () => {
@@ -103,8 +103,8 @@ describe("Profile: Edit profile, change password, delete account", () => {
       expect(response.body.data.msg).toBe("Profile updated successfully");
       expect(response.body.data.name).toBe("ehis");
       expect(response.body.data.email).toBe("ehis@gmail.com");
-      expect(user!.name).toBe("ehis");
-      expect(user!.email).toBe("ehis@gmail.com");
+      expect(user.name).toBe("ehis");
+      expect(user.email).toBe("ehis@gmail.com");
     });
 
     it("Should return error if name is taken", async () => {
@@ -158,7 +158,7 @@ describe("Profile: Edit profile, change password, delete account", () => {
 
       expect(response.status).toBe(422);
       expect(response.body.errors[0].msg).toBe("Email is required");
-      expect(user!.email).toBe("eronmmer@gmail.com");
+      expect(user.email).toBe("eronmmer@gmail.com");
     });
 
     it("Should return error if name is present but not available or does not meet the validation requirements", async () => {
@@ -178,7 +178,7 @@ describe("Profile: Edit profile, change password, delete account", () => {
       expect(response.body.errors[0].msg).toBe(
         "This name is not available. Please try another",
       );
-      expect(user!.name).toBe("erons");
+      expect(user.name).toBe("erons");
     });
 
     it("Should return 401 if user is not logged in", async () => {
@@ -208,7 +208,7 @@ describe("Profile: Edit profile, change password, delete account", () => {
         });
 
       const user = await User.findById(registerResponse.body.data.user._id);
-      const isMatch = await bcrypt.compare("newPassword", user!.password);
+      const isMatch = await bcrypt.compare("newPassword", user.password);
 
       expect(response.status).toBe(200);
       expect(response.body.data.msg).toBe("Password changed successfully");
@@ -230,7 +230,7 @@ describe("Profile: Edit profile, change password, delete account", () => {
         });
 
       const user = await User.findById(registerResponse.body.data.user._id);
-      const isMatch = await bcrypt.compare("password", user!.password);
+      const isMatch = await bcrypt.compare("password", user.password);
 
       expect(response.status).toBe(400);
       expect(response.body.errors[0].msg).toBe("Password is incorrect");
@@ -252,7 +252,7 @@ describe("Profile: Edit profile, change password, delete account", () => {
         });
 
       const user = await User.findById(registerResponse.body.data.user._id);
-      const isMatch = await bcrypt.compare("car", user!.password);
+      const isMatch = await bcrypt.compare("car", user.password);
 
       expect(response.status).toBe(422);
       expect(response.body.errors[0].msg).toBe(
@@ -308,7 +308,7 @@ describe("Profile: Edit profile, change password, delete account", () => {
 
       // add an answer to the created account
       const user = await User.findOne({ name: "erons" });
-      const id = user!.id;
+      const id = user.id;
 
       const answers1 = new Answer({
         user: id,
