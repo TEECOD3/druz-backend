@@ -8,6 +8,7 @@ import Answer from "../models/Answer";
 import sendResetEmail from "../utils/sendResetEmail";
 import generateToken from "../utils/generateToken";
 import isNameValid from "../utils/isNameValid";
+import { isPasswordValid } from "../utils";
 import defaultQuestions from "../utils/defaultQuestions";
 const secret = process.env.JWT_SECRET || "secret";
 
@@ -31,6 +32,17 @@ export const register = async (
         errors: [
           {
             msg: "This name is unavailable. Please choose another one",
+            status: "422",
+          },
+        ],
+      });
+    }
+
+    if (!isPasswordValid(password)) {
+      return res.status(422).json({
+        errors: [
+          {
+            msg: "Your password must be at least 8 characters long",
             status: "422",
           },
         ],
