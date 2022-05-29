@@ -1,4 +1,4 @@
-const blackedOutNames = [
+const restrictedNames = [
   "anonymous",
   "settings",
   "setting",
@@ -11,6 +11,8 @@ const blackedOutNames = [
   "answers",
   "questions",
   "question",
+  "message",
+  "messages",
   "faq",
   "forgot-password",
   "reset-password",
@@ -27,11 +29,10 @@ const blackedOutNames = [
   "faqs",
   "privacy-policy",
   "terms-of-use",
-  // "aigbiluese_eronmonsele"
 ];
 
 const isNameValid = (name: string): boolean => {
-  if (blackedOutNames.includes(name.toLowerCase())) {
+  if (restrictedNames.includes(name.toLowerCase())) {
     return false;
   }
 
