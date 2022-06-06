@@ -5,11 +5,11 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import User, { IUser } from "../models/User";
 import Answer from "../models/Answer";
+import Message from "../models/Message";
 import sendResetEmail from "../utils/sendResetEmail";
 import generateToken from "../utils/generateToken";
 import isNameValid from "../utils/isNameValid";
 import { isPasswordValid } from "../utils";
-import defaultQuestions from "../utils/defaultQuestions";
 const secret = process.env.JWT_SECRET || "secret";
 
 // register a user
@@ -89,11 +89,6 @@ export const register = async (
         password: hashedPassword,
       });
     }
-
-    // populate user with default questions.
-    defaultQuestions.forEach((question) => {
-      user.questions.push(question);
-    });
 
     if (role) {
       user.role = role;
@@ -248,7 +243,26 @@ export const getUser = async (
             },
           },
         });
-      } else {
+      } else if (alongwith === "messages") {
+				// eslint-disable-next-line
+				// @ts-ignore
+				const messages = await Message.paginate(
+					{ user: user.id },
+					{ limit, page, sort: { date: -1 }, lean: true }
+				);
+				// .sort({ date: -1 });
+				return res.json({
+					data: {
+						user: {
+							_id: user.id,
+							name: user.name,
+							email: user.email,
+							questions: user.questions,
+							messages,
+						},
+					},
+				});
+			} else {
         return res.json({
           data: {
             user: {

@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 import { validationResult } from "express-validator";
 import User from "../models/User";
 import Answer from "../models/Answer";
+import Message from "../models/Message";
 import isNameValid from "../utils/isNameValid";
 
 // Edits profile of a user
@@ -189,7 +190,12 @@ export const getDashboard = async (
   try {
     const user = await User.findById(req?.user?.id);
     const answers = await Answer.find({ user: req?.user?.id }).count();
+    const messages = await Message.find({ user: req?.user?.id }).count();
     const unread = await Answer.find({
+      user: req?.user?.id,
+      read: false,
+    }).count();
+    const unreadMessages = await Message.find({
       user: req?.user?.id,
       read: false,
     }).count();
@@ -207,6 +213,8 @@ export const getDashboard = async (
             questions: user.questions.length,
             unread,
             answers,
+            messages,
+            unreadMessages
           },
         },
       });

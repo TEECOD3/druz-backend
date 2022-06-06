@@ -57,17 +57,6 @@ export const removeQuestion = async (
     const user = await User.findById(req?.user?.id);
 
     if (user) {
-      if (user.questions.length <= 2) {
-        return res.status(400).json({
-          errors: [
-            {
-              msg: "You must have at least two questions in your profile",
-              status: "400",
-            },
-          ],
-        });
-      }
-
       const index = user.questions.findIndex(
         (question) => question?._id?.toString() === questionId,
       );
