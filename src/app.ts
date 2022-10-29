@@ -25,7 +25,7 @@ connectDB();
 applyMiddleware(middleware, app);
 
 app.get("/", (req, res) => {
-  res.send("API is up and running 🤲🤞");
+  res.send("API is up and running version 2 🤲🤞");
 });
 
 applyRoutes(routes, app);
