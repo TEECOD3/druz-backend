@@ -33,17 +33,17 @@ const restrictedNames = [
 ];
 
 const isNameValid = (name: string): boolean => {
-  if (restrictedNames.includes(name.toLowerCase())) {
-    return false;
-  }
+	if (restrictedNames.includes(name.toLowerCase())) {
+		return false;
+	}
 
-  const reg = /^[a-z0-9_]+$/gi;
+	const reg = /^[a-z0-9_]+$/gi;
 
-  if (!reg.test(name)) {
-    return false;
-  }
+	if (!reg.test(name)) {
+		return false;
+	}
 
-  return true;
+	return true;
 };
 
 export default isNameValid;
